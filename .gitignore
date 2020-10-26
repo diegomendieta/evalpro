@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 data_variabilidad_agrupada/
+data_skus_agrupados/
 data/
 .Python
 build/
