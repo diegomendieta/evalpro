@@ -1,2 +1,1 @@
-# evalpro
-Repositorio de Evaluación de Proyectos
+comparacionTotal.ipynb genera archivos de inventarios finales y deltas para cada tipo de agrupación
