@@ -10,6 +10,8 @@ __pycache__/
 data_variabilidad_agrupada/
 data_skus_agrupados/
 data/
+deltas/
+jupyter_notebooks/simulacion/data
 .Python
 build/
 develop-eggs/
