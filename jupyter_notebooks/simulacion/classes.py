@@ -1,6 +1,4 @@
 import numpy as np
-import sys
-import os
 from data_generator import simulation_generator
 
 
@@ -43,7 +41,7 @@ class DC:
         self.days_until_restock = -1
 
     def receiveDemand(self, demand, hub_n_spoke):
-        print(f'Recibiendo {demand} unidades de demanda en {self.name}')
+        # print(f'Recibiendo {demand} unidades de demanda en {self.name}')
 
         self.accumulated_demand += demand
 
@@ -51,15 +49,16 @@ class DC:
         surpassed_demand = max(0, demand - self.stock)
         if surpassed_demand and self.hub is not None:
             if self.hub.stock >= surpassed_demand:
-                print(f'Demanda en CD {self.name} superada.', end=' ')
+                # print(f'Demanda en CD {self.name} superada.', end=' ')
 
                 if hub_n_spoke:
-                    print(f'Hub {self.hub.name} supliendo la demanda por '
-                          f'{surpassed_demand} de CD {self.name}.')
+                    # print(f'Hub {self.hub.name} supliendo la demanda por '
+                    #       f'{surpassed_demand} de CD {self.name}.')
                     self.hub.stock -= surpassed_demand
-                    print(f'Stock en {self.hub.name}: {self.stock}.')
+                    # print(f'Stock en {self.hub.name}: {self.stock}.')
                 else:
-                    print()
+                    # print()
+                    pass
 
             else:
                 lost = surpassed_demand
@@ -67,16 +66,16 @@ class DC:
             lost = surpassed_demand
 
         if lost:
-            print(f'Demanda superada por {lost} unidades en {self.name}.')
+            # print(f'Demanda superada por {lost} unidades en {self.name}.')
             self.broken_demand += lost
 
         self.stock = max(0, self.stock - demand)
-        print(f'Stock en {self.name}: {self.stock}.')
+        # print(f'Stock en {self.name}: {self.stock}.')
 
         reorder, quantity = self.criterion()
         if reorder and not self.units_on_the_way:
-            print(f'Generando orden por {quantity} unidades en '
-                  f'{self.name}.')
+            # print(f'Generando orden por {quantity} unidades en '
+            #       f'{self.name}.')
             self.generateRestockOrder(quantity)
 
         return lost
@@ -94,18 +93,18 @@ class DC:
 
     def restock(self):
         if self.days_until_restock == 0:
-            print(f'Rellenando inventario con {self.units_on_the_way} unidades '
-                  f'en {self.name}.')
+            # print(f'Rellenando inventario con {self.units_on_the_way} unidades '
+            #       f'en {self.name}.')
             self.stock += self.units_on_the_way
-            print(f'Stock en {self.name}: {self.stock}')
+            # print(f'Stock en {self.name}: {self.stock}')
             self.units_on_the_way = 0
             self.days_until_restock -= 1
             return True
 
         if self.days_until_restock != -1:
-            print(f'{self.days_until_restock} días hasta que lleguen '
-                  f'{self.units_on_the_way} unidades '
-                  f'de inventario en {self.name}.')
+            # print(f'{self.days_until_restock} días hasta que lleguen '
+            #       f'{self.units_on_the_way} unidades '
+            #       f'de inventario en {self.name}.')
             self.days_until_restock -= 1
             return True
 
@@ -130,9 +129,9 @@ class System:
         self.lost_demand = 0
 
     def showStats(self):
-        print()
         print(f'Demanda recibida: {self.accumulated_demand}')
         print(f'Demanda perdida: {self.lost_demand}')
+        print()
 
     def simulate(self, demand_generator, T, hub_n_spoke=False, show_stats=True):
         self.resetStats()
@@ -141,12 +140,13 @@ class System:
         while t < T:
             t += 1
 
-            print(f'\n[Día {t}]\n')
+            # print(f'\n[Día {t}]\n')
 
-            print(f'Stock en {self.hub.name}: {self.hub.stock}')
+            # print(f'Stock en {self.hub.name}: {self.hub.stock}')
             for dc in self.hub.assigned_dcs:
-                print(f'Stock en {dc.name}: {dc.stock}')
-            print()
+                # print(f'Stock en {dc.name}: {dc.stock}')
+                break
+            # print()
 
             # Revisamos si corresponde que llegue algún pedido al hub
             skip_line = self.hub.restock()
@@ -161,7 +161,8 @@ class System:
                     dc.restock()
 
             if skip_line:
-                print()
+                # print()
+                pass
 
             # Recibimos la demanda en el hub
             demand = demand_generator.generateDemand(self.hub.name)
